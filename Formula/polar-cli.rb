@@ -8,9 +8,14 @@ class PolarCli < Formula
   depends_on "python@3.12"
 
   def install
-    venv = virtualenv_create(libexec, "python3.12")
-    venv.pip_install "polar-cli==1.0.0"
-    bin.install_symlink libexec/"bin/polar"
+    python3 = "python3.12"
+    venv_dir = libexec
+
+    system python3, "-m", "venv", venv_dir
+    system venv_dir/"bin/pip", "install", "--upgrade", "pip"
+    system venv_dir/"bin/pip", "install", "polar-cli==1.0.0"
+    
+    bin.install_symlink venv_dir/"bin/polar"
   end
 
   test do
