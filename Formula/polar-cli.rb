@@ -1,6 +1,4 @@
 class PolarCli < Formula
-  include Language::Python::Virtualenv
-
   desc "CLI for Polar — manage products, customers, and webhooks from the terminal"
   homepage "https://github.com/berkantay/polar-cli"
   url "https://files.pythonhosted.org/packages/79/b1/a305206f0d73e08c6a3d891535f142371767c6d02ef28e84ab341c3cc626/polar_cli-1.0.0.tar.gz"
@@ -10,7 +8,9 @@ class PolarCli < Formula
   depends_on "python@3.12"
 
   def install
-    virtualenv_install_with_resources
+    venv = virtualenv_create(libexec, "python3.12")
+    venv.pip_install "polar-cli==1.0.0"
+    bin.install_symlink libexec/"bin/polar"
   end
 
   test do
